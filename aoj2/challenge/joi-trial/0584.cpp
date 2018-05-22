@@ -25,16 +25,59 @@ int main(int, char**) {
     v.push_back(t);
   }
 
+  std::vector<int> candidates;
   std::vector<int> rs;
-  for(int i{0}; i < n; ++i) {
-    for(int j{0}; j < n; ++j) {
+
+  for(int i{0}; i < n/2; ++i) {
+    for(int j{0}; j < n/2; ++j) {
       if(i != j)
         rs.push_back(concat(v[i], v[j]));
     }
   }
   std::sort(begin(rs), end(rs));
+  for(int i{0}; i < 3; ++i) {
+    candidates.push_back(rs[i]);
+  }
+  rs.clear();
 
-  std::cout << rs[2] << std::endl;
+  for(int i{0}; i < n/2; ++i) {
+    for(int j{n/2}; j < n; ++j) {
+      if(i != j)
+        rs.push_back(concat(v[i], v[j]));
+    }
+  }
+  std::sort(begin(rs), end(rs));
+  for(int i{0}; i < 3; ++i) {
+    candidates.push_back(rs[i]);
+  }
+  rs.clear();
+
+  for(int i{n/2}; i < n; ++i) {
+    for(int j{0}; j < n/2; ++j) {
+      if(i != j)
+        rs.push_back(concat(v[i], v[j]));
+    }
+  }
+  std::sort(begin(rs), end(rs));
+  for(int i{0}; i < 3; ++i) {
+    candidates.push_back(rs[i]);
+  }
+  rs.clear();
+
+  for(int i{n/2}; i < n; ++i) {
+    for(int j{n/2}; j < n; ++j) {
+      if(i != j)
+        rs.push_back(concat(v[i], v[j]));
+    }
+  }
+  std::sort(begin(rs), end(rs));
+  for(int i{0}; i < 3; ++i) {
+    candidates.push_back(rs[i]);
+  }
+  rs.clear();
+
+  std::sort(begin(candidates), end(candidates));
+  std::cout << candidates[2] << std::endl;
 
   return 0;
 }
