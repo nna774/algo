@@ -5,12 +5,18 @@
 
 static int const INF{100000000};
 
-int solve(auto b, auto e, int w) {
-  if(b == e || w == 0) return 0;
+int solve(auto const& ws, auto& memo, int i, int w) {
+  if(i == ws.size()) return 0;
+  if(w < ws[i]) {
+    return memo[i][w] = solve(ws, memo, i + 1, w);
+  }
 
-  if(w < *b) return solve(next(b), e, w);
+  if(memo[i][w]) return memo[i][w];
+  int v1 = solve(ws, memo, i + 1, w);
+  int v2 = solve(ws, memo, i + 1, w - ws[i]) + ws[i];
 
-  return solve(next(b), e, w - *b) + *b;
+  memo[i][w] = std::max(v1, v2);
+  return memo[i][w];
 }
 
 int main(int, char**) {
@@ -31,9 +37,10 @@ int main(int, char**) {
   }
 
   sum /= 2;
+  std::vector<std::vector<int>> memo(n + 1, std::vector(sum + 1, 0));
 
   std::sort(begin(ws), end(ws), std::greater<int>());
-  int v = solve(begin(ws), end(ws), sum);
+  int v = solve(ws, memo, 0, sum);
 
   std::cout << (sum == v ? "possible" : "impossible") << std::endl;
 
