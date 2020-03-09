@@ -1,47 +1,47 @@
 #include<algorithm>
 #include<iostream>
 #include<string>
-#include<vector>
 
 int main(int, char**) {
-  std::string s;
+  std::string s, heads;
   std::cin >> s;
   int qs;
   std::cin >> qs;
-  std::vector<int> ops;
+  bool reverse{};
 
   for(int i{}; i < qs; ++i) {
     int q;
     std::cin >> q;
     if(q == 1) {
       // reverse
-      ops.push_back(-1);
+      reverse = !reverse;
     } else {
       int f;
       char c;
       std::cin >> f >> c;
       if(f == 1) {
         // c:s
-        ops.push_back(-1);
-        ops.push_back(c);
-        ops.push_back(-1);
+        if(reverse) {
+          s += c;
+        } else {
+          heads += c;
+        }
       } else {
-        // s ++ [c]
-        // == 1; (2 1 c); 1;
-        ops.push_back(c);
+        if(!reverse) {
+          s += c;
+        } else {
+          heads += c;
+        }
       }
     }
   }
 
-  for(auto e: ops) {
-    if(e < 0) {
-      std::reverse(begin(s), end(s));
-    } else {
-      char c = e;
-      s += c;
-    }
+  std::reverse(begin(heads), end(heads));
+  s = heads + s;
+  if(reverse) {
+    std::reverse(begin(s), end(s));
+  } else {
   }
-
   std::cout << s << std::endl;
 
   return 0;
