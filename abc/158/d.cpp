@@ -2,33 +2,29 @@
 #include<iostream>
 #include<string>
 #include<vector>
-#include<variant>
- 
-class Reverse{} reverse;
-using Operations = std::variant<Reverse, char>;
- 
+
 int main(int, char**) {
   std::string s;
   std::cin >> s;
   int qs;
   std::cin >> qs;
-  std::vector<Operations> ops;
- 
+  std::vector<int> ops;
+
   for(int i{}; i < qs; ++i) {
     int q;
     std::cin >> q;
     if(q == 1) {
       // reverse
-      ops.push_back(reverse);
+      ops.push_back(-1);
     } else {
       int f;
       char c;
       std::cin >> f >> c;
       if(f == 1) {
         // c:s
-        ops.push_back(reverse);
+        ops.push_back(-1);
         ops.push_back(c);
-        ops.push_back(reverse);
+        ops.push_back(-1);
       } else {
         // s ++ [c]
         // == 1; (2 1 c); 1;
@@ -36,17 +32,17 @@ int main(int, char**) {
       }
     }
   }
- 
+
   for(auto e: ops) {
-    if(std::holds_alternative<Reverse>(e)) {
+    if(e < 0) {
       std::reverse(begin(s), end(s));
     } else {
-      auto c = std::get<char>(e);
+      char c = e;
       s += c;
     }
   }
- 
+
   std::cout << s << std::endl;
- 
+
   return 0;
 }
